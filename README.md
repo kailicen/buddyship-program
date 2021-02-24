@@ -5,10 +5,6 @@
 Python version over 3.6
 
 ```bash
-git clone <repo-url>
-```
-
-```bash
 pip install -r requirements.txt
 ```
 
