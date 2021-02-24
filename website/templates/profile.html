@@ -1,0 +1,110 @@
+{% extends "base.html" %} {% block title %}Change Your Info{% endblock %} {% block content
+%}
+<h3 align="center">Change Your Info</h3>
+<hr>
+<form method="POST">
+  <div class="form-group">
+    <label for="buddyName">Current buddy:</label>
+    <input
+      class="form-control"
+      type="text"
+      id="buddyName"
+      name="buddyName"
+      value="{{ user.current_buddy }}"
+    />
+    </div>
+  <div class="form-group">
+    <label for="goalSelect">Current goal:</label>
+    <select
+      class="form-control"
+      id="goalSelect"
+      name="goalSelect"
+    >
+    {% for i in range(7) %}
+      {% if goalOptions[i] == user.current_goal %}
+      <option selected>{{ goalOptions[i] }}</option>
+      {% else %}
+      <option>{{ goalOptions[i] }}</option>
+      {% endif %}
+    {% endfor %}
+    </select>
+    <br/>
+    <div class="form-group">
+      <input
+        class="form-control"
+        type="text"
+        name="otherGoal"
+        placeholder="Enter your goal here if you select 'Others'"
+      />
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="reward">Current reward:</label>
+    <input
+      class="form-control"
+      type="text"
+      id="reward"
+      name="reward"
+      value="{{ user.current_reward }}"
+    />
+  </div>
+
+  <div class="form-group">
+    <input type="submit" name="btn" class="btn btn-primary" value="Save Changes">
+    <span></span>
+    <input type="submit" name="btn" class="btn btn-default" value="Cancel">
+  </div>
+</form>
+
+<br/>
+<h4>History</h4>
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Buddy</th>
+      <th scope="col">Start Date</th>
+      <th scope="col">End Date</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for buddy in user.buddies %}
+    <tr>
+      <th scope="row">{{ buddy.name }}</th>
+      <td>{{ buddy.start_date.date() }}</td>
+      {% if buddy.end_date == None %}
+      <td> -- </td>
+      {% else %}
+      <td>{{ buddy.end_date.date() }}</td>
+      {% endif %}
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Goal</th>
+      <th scope="col">Date</th>
+      <th scope="col">Role</th>
+      <th scope="col">Score</th>
+      <th scope="col">Comment</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for goal in user.goals %}
+    {% for progress in user.progresses %}
+    {% if progress.goal_count == goal.goal_count %}
+    <tr>
+      <th scope="row">{{ goal.goal }}</th>
+      <td>{{ progress.date.date() }}</td>
+      <td>{{ progress.role }}</td>
+      <td>{{ progress.score }}</td>
+      <td>{{ progress.comment }}</td>
+
+    </tr>
+    {% endif %}
+    {% endfor %}
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

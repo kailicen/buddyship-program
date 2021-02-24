@@ -1,0 +1,84 @@
+{% extends "base.html" %} {% block title %}Home{% endblock %} {% block content
+%}
+<h3 align="center">Buddyship Program</h3>
+<hr/>
+<div class="container">
+  <p>Buddyship: {{ user.first_name }} and {{ user.current_buddy }}</p>
+  <p>Your goal: {{ user.current_goal }}</p>
+  <p>Your reward: {{ user.current_reward }}</p>
+</div>
+
+<hr/>
+<h4>Record your progress: </h4>
+<form method="POST">
+  <div class="form-group">
+    <label for="role">Role</label>
+    <select
+      class="form-control"
+      id="roleSelect"
+      name="roleSelect"
+    >
+      <option selected>Choose...</option>
+      <option>{{ roleOptions[0] }}</option>
+      <option>{{ roleOptions[1] }}</option>
+      <option>{{ roleOptions[2] }}</option>
+    </select>
+  </div>
+  <div class="form-group">
+    <label for="score">Score</label>
+    <select
+      class="form-control"
+      id="scoreSelect"
+      name="scoreSelect"
+      placeholder="Select a score"
+    >
+      <option selected>Choose...</option>
+      <option>1</option>
+      <option>2</option>
+      <option>3</option>
+      <option>4</option>
+      <option>5</option>
+    </select>
+  </div>
+  <div class="form-group">
+    <label for="comment">Comment</label>
+    <input
+      type="text"
+      class="form-control"
+      id="comment"
+      name="comment"
+      placeholder="Enter comment"
+    />
+  </div>
+  <br />
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+<br/>
+
+<h4>Progress history: </h4>
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Date</th>
+      <th scope="col">Role</th>
+      <th scope="col">Score</th>
+      <th scope="col">Comment</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for progress in user.progresses %}
+    {% if progress.goal_count == goal.goal_count %}
+    <tr>
+
+      <th scope="row">{{ progress.date.date() }}</th>
+      <td>{{ progress.role }}</td>
+      <td>{{ progress.score }}</td>
+      <td>{{ progress.comment }}</td>
+
+    </tr>
+    {% endif %}
+    {% endfor %}
+  </tbody>
+</table>
+
+{% endblock %}
