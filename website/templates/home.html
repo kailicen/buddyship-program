@@ -1,43 +1,50 @@
 {% extends "base.html" %} {% block title %}Home{% endblock %} {% block content
 %}
-<h3 align="center">Buddyship Program</h3>
-<hr/>
-<div class="container">
-  <p>Buddyship: {{ user.first_name }} and {{ user.current_buddy }}</p>
-  <p>Your goal: {{ user.current_goal }}</p>
-  <p>Your reward: {{ user.current_reward }}</p>
+<div class="container pt-3">
+  <h3 align="center">Buddyship Program</h3>
+  <div class="container p-3 bg-light">
+    <p><b>Buddyship: </b>{{ user.first_name }} and {{ user.current_buddy }}<br/>
+      <b>Your buddy's goal: </b>{{ buddy_account.current_goal }}</p>
+  </div>
 </div>
 
-<hr/>
-<h4>Record your progress: </h4>
+<div class="container pt-3">
+  <h4 class="p-2 bg-secondary text-white">Record your buddy's progress: </h4>
+  <p class="text-muted">
+    - During the meeting, what role(s) is your buddy playing? What score do you want to give him/her? <br/>
+    - Any comments according to achieving his/her goal?
+  </p>
 <form method="POST">
   <div class="form-group">
-    <label for="role">Role</label>
+    <label for="role">Your buddy's role</label>
     <select
       class="form-control"
       id="roleSelect"
       name="roleSelect"
     >
-      <option selected>Choose...</option>
+      <option disabled selected>Choose...</option>
       <option>{{ roleOptions[0] }}</option>
       <option>{{ roleOptions[1] }}</option>
-      <option>{{ roleOptions[2] }}</option>
+      <option disabled>---------------------</option>
+      {% for i in range(2, 11) %}
+      <option>{{ roleOptions[i] }}</option>
+      {% endfor %}
     </select>
   </div>
   <div class="form-group">
-    <label for="score">Score</label>
+    <label for="score">Your buddy's score</label>
     <select
       class="form-control"
       id="scoreSelect"
       name="scoreSelect"
       placeholder="Select a score"
     >
-      <option selected>Choose...</option>
-      <option>1</option>
-      <option>2</option>
-      <option>3</option>
-      <option>4</option>
-      <option>5</option>
+      <option disabled selected>Choose...</option>
+      <option>5-Exemplary</option>
+      <option>4-Excel</option>
+      <option>3-Accomplished</option>
+      <option>2-Emerging</option>
+      <option>1-Developing</option>
     </select>
   </div>
   <div class="form-group">
@@ -53,32 +60,6 @@
   <br />
   <button type="submit" class="btn btn-primary">Submit</button>
 </form>
-<br/>
-
-<h4>Progress history: </h4>
-<table class="table">
-  <thead>
-    <tr>
-      <th scope="col">Date</th>
-      <th scope="col">Role</th>
-      <th scope="col">Score</th>
-      <th scope="col">Comment</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for progress in user.progresses %}
-    {% if progress.goal_count == goal.goal_count %}
-    <tr>
-
-      <th scope="row">{{ progress.date.date() }}</th>
-      <td>{{ progress.role }}</td>
-      <td>{{ progress.score }}</td>
-      <td>{{ progress.comment }}</td>
-
-    </tr>
-    {% endif %}
-    {% endfor %}
-  </tbody>
-</table>
+</div>
 
 {% endblock %}

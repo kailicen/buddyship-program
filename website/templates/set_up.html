@@ -4,7 +4,7 @@ content %}
 <form method="POST">
   <h3 align="center">Set Things Up</h3>
   <div class="form-group">
-    <label for="buddyName">Buddy</label>
+    <label for="buddyName">Your buddy's first name</label>
     <input
       type="text"
       class="form-control"
@@ -14,34 +14,35 @@ content %}
     />
   </div>
   <div class="form-group">
-    <label for="goalSelect">Goal</label>
+    <label for="goalSelect">Select a general direction that you want to work on</label>
     <select
       class="form-control"
       id="goalSelect"
       name="goalSelect"
     >
-      <option selected>Choose...</option>
+      <option disabled selected>Choose...</option>
       {% for i in range(7) %}
       <option>{{ goalOptions[i] }}</option>
       {% endfor %}
     </select>
-    <br/>
-    <div class="form-group">
-      <input
-        class="form-control"
-        type="text"
-        name="otherGoal"
-        placeholder="Enter your goal here if you select 'Others'">
-    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="goalElaborate">Articulate your specific goal here</label>
+    <input
+      class="form-control"
+      type="text"
+      name="goalElaborate"
+      placeholder="Elaborate more about your goal">
   </div>
   <div class="form-group">
-    <label for="reward">Reward</label>
+    <label for="reward">The reward you get when your goal is accomplished</label>
     <input
       type="text"
       class="form-control"
       id="reward"
       name="reward"
-      placeholder="Enter reward"
+      placeholder="Enter a compelling reward"
     />
   </div>
   <br />

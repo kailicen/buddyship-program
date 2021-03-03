@@ -1,0 +1,80 @@
+{% extends "base.html" %} {% block title %}Me{% endblock %} {% block content
+%}
+<div class="container pt-3">
+  <h3 align="center">My History</h3>
+  <div class="container p-3 bg-light">
+    {% for goal in user.goals %}
+    {% if goal.goal_statement == user.current_goal %}
+    <p class='text-muted'>
+    - You have <span style="color:red"><b>{{ (goal.end_date.date() - current_time).days }}</b></span> days left to achieve your goal 
+    <b>{{ user.current_goal }}. </b><br/>
+    - The default target time for one goal is 6 months. If you achieve your goal before the preset 'deadline', you can move on to another goal through simply by going to 'Change Your Info' tab and updating your new goal!)</p>
+    {% endif %}
+    {% endfor %}
+  </div>  
+</div>
+
+<div class="container pt-3">
+  <h4 class="p-2 bg-secondary text-white">Progress</h4>
+  <div class="container p-3">
+    {% for goal in user.goals|reverse %}
+    <p>Goal #{{goal.goal_count }}: {{ goal.goal_statement }}<br/>Reward: {{ goal.goal_reward }}</p>
+    <table class="table table-sm table-bordered table-striped">
+      <thead>
+        <tr>
+          <th scope="col">Date</th>
+          <th scope="col">Role</th>
+          <th scope="col">Score</th>
+          <th scope="col">Comment</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for buddy_account in buddy_accounts|reverse %}
+        {% for progress in buddy_account.record_progresses|reverse %}
+        {% if progress.buddy_goal == goal.goal_direction %}
+        <tr>
+          <td>{{ progress.date.date() }}</td>
+          <td>{{ progress.buddy_role }}</td>
+          <td>{{ progress.buddy_score }}</td>
+          <td>{{ progress.buddy_comment }}</td>
+        </tr>
+        {% endif %}
+        {% endfor %}
+        {% endfor %}
+      </tbody>
+    </table>
+    <br/>
+    {% endfor %}
+  </div>
+</div>
+
+<div class="container pt-3">
+  <h4 class="p-2 bg-secondary text-white">Buddy</h4>
+  <div class="container p-3">
+    <table class="table table-sm table-bordered table-striped">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Buddy</th>
+        <th scope="col">Start Date</th>
+        <th scope="col">End Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for buddy in user.buddies %}
+      <tr>
+        <th scope="row">{{ buddy.buddy_count }}</th>
+        <td>{{ buddy.buddy_name }}</td>
+        <td>{{ buddy.start_date.date() }}</td>
+        {% if buddy.end_date == None %}
+        <td> -- </td>
+        {% else %}
+        <td>{{ buddy.end_date.date() }}</td>
+        {% endif %}
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  </div>
+</div>
+{% endblock %}
