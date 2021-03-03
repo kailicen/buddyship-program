@@ -5,29 +5,32 @@ from sqlalchemy.sql import func
 
 class Progress(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    role = db.Column(db.String(150))
-    score = db.Column(db.String(1))
-    comment = db.Column(db.String(1500))
+    buddy_role = db.Column(db.String(150))
+    buddy_score = db.Column(db.String(150))
+    buddy_comment = db.Column(db.String(1500))
     date = db.Column(db.DateTime, default=func.now())
-    goal_count = db.Column(db.Integer, db.ForeignKey('goal.goal_count'))
+    buddy_goal = db.Column(db.String(150))
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    buddy_id = db.Column(db.Integer, db.ForeignKey('buddy.id'))
 
 class Goal(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    goal = db.Column(db.String(150))
+    goal_direction = db.Column(db.String(150))
+    goal_statement = db.Column(db.String(150))
     goal_count = db.Column(db.Integer, default=1)
-    reward = db.Column(db.String(150))
-    start_date = db.Column(db.DateTime, default=func.now())
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    progresses = db.relationship('Progress')
-
-class Buddy(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(150))
-    buddy_count = db.Column(db.Integer, default=1, unique=True)
+    goal_reward = db.Column(db.String(150))
     start_date = db.Column(db.DateTime, default=func.now())
     end_date = db.Column(db.DateTime)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+
+class Buddy(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    buddy_name = db.Column(db.String(150))
+    buddy_count = db.Column(db.Integer, default=1)
+    start_date = db.Column(db.DateTime, default=func.now())
+    end_date = db.Column(db.DateTime)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    buddy_progresses = db.relationship('Progress')
 
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
@@ -39,4 +42,4 @@ class User(db.Model, UserMixin):
     current_reward = db.Column(db.String(150))
     buddies = db.relationship('Buddy')
     goals = db.relationship('Goal')
-    progresses = db.relationship('Progress')
+    record_progresses = db.relationship('Progress')
